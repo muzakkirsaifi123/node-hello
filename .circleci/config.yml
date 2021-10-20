@@ -25,13 +25,3 @@ jobs:
       - run: echo " third build "
 
 
-workflow:
-    hello:
-      jobs:
-        - build:
-        - build2:
-            requires:
-              build
-        - build3:
-            requires:
-              build2
