@@ -1,0 +1,39 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: cimg/node:14.10.1 # the primary container, where your job's commands are run
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - checkout # check out the code in the project directory
+      - run: echo "hello world" # run the `echo` command
+
+
+  build2: 
+    docker: 
+      - image: cimg/node:14.10.1
+    steps:-
+      - checkout
+      - run: echo " Second build "
+
+
+  build3: 
+    docker: 
+      - image: cimg/node:14.10.1
+    steps:-
+      - checkout
+      - run: echo " third build "
+
+
+workflow:
+    hello:
+      jobs:
+        - build:
+        - build2:
+            requires:
+              build
+        - build3:
+            requires:
+              build2
